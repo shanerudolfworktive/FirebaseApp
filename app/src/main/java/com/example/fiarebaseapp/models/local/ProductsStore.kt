@@ -1,5 +1,6 @@
 package com.example.fiarebaseapp.models.local
 
+import androidx.lifecycle.LiveData
 import androidx.paging.DataSource
 import androidx.room.*
 import com.example.fiarebaseapp.MainApplication
@@ -35,6 +36,9 @@ abstract class ProductDao {
 
     @Query("select * from ProductTable limit 1")
     abstract fun first(): ProductModel
+
+    @Query("select * from ProductTable where productId=:productId")
+    abstract fun productById(productId: String): LiveData<ProductModel>
 
 }
 
