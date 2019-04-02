@@ -6,6 +6,7 @@ import com.example.fiarebaseapp.MainApplication
 import com.example.fiarebaseapp.models.ProductModel
 import com.example.fiarebaseapp.models.ProductResponse
 import com.example.fiarebaseapp.utils.AppExecutors
+import java.util.*
 
 @Dao
 abstract class ProductDao {
@@ -22,7 +23,7 @@ abstract class ProductDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract fun insert(products: List<ProductModel?>?)
 
-    @Query("SELECT * FROM ProductTable")
+    @Query("SELECT * FROM ProductTable ORDER BY insertTime")
     abstract fun getAllProducts(): DataSource.Factory<Int, ProductModel>
 
     @Query("select * from ProductTable where pageNumber = :pageNumber limit 1")

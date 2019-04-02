@@ -20,13 +20,11 @@ class ProductListAdapter : PagedListAdapter<ProductModel, ProductViewHolder>(Dif
         val item = getItem(position)
         holder.bind(item)
     }
-
-
 }
 
 class DiffCallback: DiffUtil.ItemCallback<ProductModel>() {
     override fun areItemsTheSame(oldItem: ProductModel, newItem: ProductModel): Boolean {
-        return oldItem.productId == newItem.productId
+        return oldItem.productId.equals(newItem.productId)
     }
 
     override fun areContentsTheSame(oldItem: ProductModel, newItem: ProductModel): Boolean {
@@ -37,7 +35,6 @@ class DiffCallback: DiffUtil.ItemCallback<ProductModel>() {
                 && oldItem.productImage == newItem.productImage
                 && oldItem.reviewRating == newItem.reviewRating
     }
-
 }
 
 class ProductViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
