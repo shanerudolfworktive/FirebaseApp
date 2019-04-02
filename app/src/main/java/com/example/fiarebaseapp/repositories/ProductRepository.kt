@@ -25,8 +25,8 @@ class ProductRepository private constructor(
 
     private val pagingConfig = Config(
         pageSize = 1,
-        prefetchDistance = 20,
-        enablePlaceholders = false
+        prefetchDistance = 10
+//        enablePlaceholders = false
     )
     val productModels: LiveData<PagedList<ProductModel>> = productDao.getAllProducts().toLiveData(
         config = pagingConfig,

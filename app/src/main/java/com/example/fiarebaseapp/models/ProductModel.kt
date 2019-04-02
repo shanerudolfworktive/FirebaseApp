@@ -40,5 +40,5 @@ data class ProductModel constructor(
     val reviewCount: Int?,
     val inStock: Boolean?,
     var pageNumber: Int?,
-    var insertTime: Long = Date().time
+    var insertTime: Long
 )

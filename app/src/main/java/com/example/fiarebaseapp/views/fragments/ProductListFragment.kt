@@ -9,12 +9,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.fiarebaseapp.ProductDetailFragmentArgs
 import com.example.fiarebaseapp.R
 import com.example.fiarebaseapp.models.ProductModel
 import com.example.fiarebaseapp.models.remote.ProductListAPI
 import com.example.fiarebaseapp.viewmodels.ProductListViewModel
+import com.example.fiarebaseapp.views.customViews.OnItemClickListener
 import com.example.fiarebaseapp.views.customViews.ProductListAdapter
 import com.google.gson.Gson
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -43,6 +47,13 @@ class ProductListFragment : Fragment() {
         viewmodel.productModels.observe(this, Observer {
             adapter.submitList(it)
         })
+
+        adapter.onItemClickListener = object : OnItemClickListener {
+            override fun onClickListener(productModel: ProductModel?, rootView: View) {
+                val action = ProductListFragmentDirections.actionProductListFragmentToProductDetailFragment(productModel?.productId)
+                findNavController().navigate(action)
+            }
+        }
     }
 
     override fun onCreateView(
@@ -60,6 +71,7 @@ class ProductListFragment : Fragment() {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(activity)
         recyclerView.setHasFixedSize(true)
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

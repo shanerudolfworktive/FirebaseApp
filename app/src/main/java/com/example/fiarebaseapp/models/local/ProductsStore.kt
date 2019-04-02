@@ -14,6 +14,7 @@ abstract class ProductDao {
     fun insert(productResponse: ProductResponse) {
         for(product: ProductModel in productResponse.products.orEmpty()) {
             product.pageNumber = productResponse.pageNumber
+            product.insertTime = System.currentTimeMillis()
         }
         AppExecutors.getInstance().diskIO.execute {
             insert(productResponse.products)
