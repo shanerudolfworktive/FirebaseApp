@@ -4,20 +4,36 @@ import androidx.paging.DataSource
 import androidx.room.*
 import com.example.fiarebaseapp.MainApplication
 import com.example.fiarebaseapp.models.ProductModel
+import com.example.fiarebaseapp.models.ProductResponse
+import com.example.fiarebaseapp.utils.AppExecutors
 
 @Dao
-interface ProductDao {
+abstract class ProductDao {
+
+    fun insert(productResponse: ProductResponse) {
+        for(product: ProductModel in productResponse.products.orEmpty()) {
+            product.pageNumber = productResponse.pageNumber
+        }
+        AppExecutors.getInstance().diskIO.execute {
+            insert(productResponse.products)
+        }
+    }
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(products: List<ProductModel?>?)
+    abstract fun insert(products: List<ProductModel?>?)
 
     @Query("SELECT * FROM ProductTable")
-    fun getAllProducts(): DataSource.Factory<Int, ProductModel>
+    abstract fun getAllProducts(): DataSource.Factory<Int, ProductModel>
+
+    @Query("select * from ProductTable where pageNumber = :pageNumber limit 1")
+    abstract fun getFirst(pageNumber: Int): List<ProductModel>
 
     @Query("DELETE FROM ProductTable")
-    fun deleteAllProducts()
+    abstract fun deleteAllProducts()
 
     @Query("select * from ProductTable limit 1")
-    fun first(): ProductModel
+    abstract fun first(): ProductModel
+
 }
 
 @Database(entities = [ProductModel::class], version = 1)

@@ -24,18 +24,25 @@ class ProductRepository private constructor(
     private var loading = false
 
     private val pagingConfig = Config(
-        pageSize = 2,
-        prefetchDistance = 30
-//        enablePlaceholders = false
+        pageSize = 1,
+        prefetchDistance = 20,
+        enablePlaceholders = false
     )
     val productModels: LiveData<PagedList<ProductModel>> = productDao.getAllProducts().toLiveData(
         config = pagingConfig,
         boundaryCallback = this
     )
 
+    fun deleteAllProducts() {
+        appExecutors.diskIO.execute {
+            productDao.deleteAllProducts()
+        }
+    }
+
     override fun onZeroItemsLoaded() {
         super.onZeroItemsLoaded()
         Log.d("RepoBoundaryCallback", "onZeroItemsLoaded")
+        lastRequestedPage=1
         requestAndSaveData()
     }
 
@@ -47,21 +54,28 @@ class ProductRepository private constructor(
     private fun requestAndSaveData() {
         if (loading) return
 
-        loading = true
-        ProductListAPI.getInstance().fetchProducts(lastRequestedPage,30).subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                loading = false
-                lastRequestedPage++
-                appExecutors.diskIO.execute{
-                    productDao.insert(it.products)
-                    Log.e("testing2", Gson().toJson(productDao.first()))
+        appExecutors.diskIO.execute{
+            if (productDao.getFirst(lastRequestedPage).isEmpty()) {
+                appExecutors.mainThread.execute{
+                    loading = true
+                    ProductListAPI.getInstance().fetchProducts(lastRequestedPage,30).subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe({
+                            loading = false
+                            lastRequestedPage++
+                            productDao.insert(it)
+                            Log.e("testing", Gson().toJson(it))
+                        },{
+                            loading = false
+                            it.printStackTrace()
+                        })
                 }
-                Log.e("testing", Gson().toJson(it))
-            },{
-                loading = false
-                it.printStackTrace()
-            })
+            }else {
+                appExecutors.mainThread.execute {
+                    lastRequestedPage++
+                }
+            }
+        }
     }
 
     companion object {

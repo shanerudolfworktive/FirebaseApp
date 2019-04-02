@@ -1,5 +1,6 @@
 package com.example.fiarebaseapp.models
 
+import androidx.room.ColumnInfo
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -15,7 +16,7 @@ data class ProductResponse constructor(
     val pageNumber: Int?,
     val pageSize: Int?,
     val statusCode: Int?,
-    val products: List<ProductModel?>?
+    val products: List<ProductModel>?
 )
 
 @Entity(tableName = "ProductTable")
@@ -37,5 +38,6 @@ data class ProductModel constructor(
     val productImage: String?,
     val reviewRating: Float?,
     val reviewCount: Int?,
-    val inStock: Boolean?
+    val inStock: Boolean?,
+    var pageNumber: Int?
 )
