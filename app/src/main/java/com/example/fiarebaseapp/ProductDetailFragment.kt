@@ -4,17 +4,15 @@ package com.example.fiarebaseapp
 import android.os.Build
 import android.os.Bundle
 import android.text.Html
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.navArgs
+import com.example.fiarebaseapp.consts.Constants
 import com.example.fiarebaseapp.viewmodels.ProductDetailViewModel
-import com.google.gson.Gson
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_product_detail.*
 
@@ -37,7 +35,8 @@ class ProductDetailFragment : Fragment() {
         super.onCreate(savedInstanceState)
         viewmodel = ViewModelProviders.of(activity!!).get(ProductDetailViewModel::class.java)
         viewmodel.productModel.observe(this, Observer {
-            Picasso.get().load(url).fit().placeholder(R.drawable.default_image).error(R.drawable.default_image)
+            Picasso.get().load(Constants.BASE_URL + it.productImage).fit().placeholder(R.drawable.default_image)
+                .error(R.drawable.default_image)
                 .into(productImageView)
             nameTextView.text = it.productName
             priceTextView.text = it.price

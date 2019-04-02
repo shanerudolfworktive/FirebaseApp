@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import com.example.fiarebaseapp.models.ProductModel
 import com.example.fiarebaseapp.repositories.ProductDetailRepository
-import com.example.fiarebaseapp.repositories.ProductRepository
 
 class ProductDetailViewModel(
     private val repository: ProductDetailRepository = ProductDetailRepository.getInstance()
