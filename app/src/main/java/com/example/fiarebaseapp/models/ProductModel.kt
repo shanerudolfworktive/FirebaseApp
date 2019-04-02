@@ -18,7 +18,7 @@ data class ProductResponse constructor(
     val products: List<ProductModel?>?
 )
 
-//@Entity(tableName = "ProductTable")
+@Entity(tableName = "ProductTable")
 data class ProductModel constructor(
 //    "productId":"003e3e6a-3f84-43ac-8ef3-a5ae2db0f80e",
 //"productName":"Ellerton TV Console",
@@ -29,7 +29,7 @@ data class ProductModel constructor(
 //"reviewRating":2,
 //"reviewCount":1,
 //"inStock":true
-    val productId: String?,
+    @PrimaryKey val productId: String,
     val productName: String?,
     val shortDescription: String?,
     val longDescription: String?,

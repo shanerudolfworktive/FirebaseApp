@@ -18,11 +18,11 @@ interface ProductListAPI {
     ): Observable<ProductResponse>
 
     companion object {
+        @Volatile
         private var INSTANCE: ProductListAPI? = null
-        private val lock = Any()
 
         fun getInstance(): ProductListAPI {
-            synchronized(lock) {
+            synchronized(this) {
                 val retrofit = Retrofit.Builder()
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .addConverterFactory(GsonConverterFactory.create())
