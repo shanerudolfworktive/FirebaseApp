@@ -1,10 +1,13 @@
 package com.example.fiarebaseapp.repositories
 
+import android.app.Application
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.paging.Config
 import androidx.paging.PagedList
 import androidx.paging.toLiveData
+import com.example.fiarebaseapp.MainApplication
 import com.example.fiarebaseapp.models.ProductModel
 import com.example.fiarebaseapp.models.local.ProductsDatabase
 import com.example.fiarebaseapp.models.remote.ProductListAPI
@@ -64,6 +67,7 @@ class ProductRepository private constructor(
                             loading = false
                             lastRequestedPage++
                             productDao.insert(it)
+                            Toast.makeText(MainApplication.appContext, "success fetch page: " + lastRequestedPage, Toast.LENGTH_SHORT).show()
                         },{
                             loading = false
                             it.printStackTrace()
