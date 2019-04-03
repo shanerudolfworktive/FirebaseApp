@@ -64,7 +64,6 @@ class ProductRepository private constructor(
                             loading = false
                             lastRequestedPage++
                             productDao.insert(it)
-                            Log.e("testing", Gson().toJson(it))
                         },{
                             loading = false
                             it.printStackTrace()
