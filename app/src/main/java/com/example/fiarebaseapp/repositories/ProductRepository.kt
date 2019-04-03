@@ -67,7 +67,7 @@ class ProductRepository private constructor(
                             loading = false
                             lastRequestedPage++
                             productDao.insert(it)
-                            Toast.makeText(MainApplication.appContext, "success fetch page: " + lastRequestedPage, Toast.LENGTH_SHORT).show()
+                            Toast.makeText(MainApplication.appContext, "success fetch page: " + (lastRequestedPage-1), Toast.LENGTH_SHORT).show()
                         },{
                             loading = false
                             it.printStackTrace()
