@@ -1,6 +1,5 @@
 package com.example.fiarebaseapp.repositories
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.Config
@@ -13,7 +12,6 @@ import com.example.fiarebaseapp.models.local.ProductDao
 import com.example.fiarebaseapp.models.local.ProductsDatabase
 import com.example.fiarebaseapp.models.remote.ProductListAPI
 import com.example.fiarebaseapp.utils.AppExecutors
-import com.google.gson.Gson
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -64,7 +62,6 @@ class ProductRepository constructor(
                     productAPI.fetchProducts(lastRequestedPage, 30).subscribeOn(Schedulers.io())
                         .observeOn(Schedulers.single())
                         .flatMap {
-                            Log.e("testing1", Gson().toJson(it))
                             if(it.statusCode != 200) {
                                 throw Throwable("" + it.statusCode)
                             }

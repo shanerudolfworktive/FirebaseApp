@@ -2,20 +2,16 @@ package com.example.fiarebaseapp.views.customViews
 
 import android.os.Build
 import android.text.Html
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ListAdapter
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fiarebaseapp.R
 import com.example.fiarebaseapp.consts.Constants
 import com.example.fiarebaseapp.models.ProductModel
-import com.google.gson.Gson
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.fragment_product_detail.*
 import kotlinx.android.synthetic.main.product_list_item.view.*
 
 open interface OnItemClickListener{
@@ -41,7 +37,7 @@ class ProductListAdapter : PagedListAdapter<ProductModel, ProductViewHolder>(Dif
 
 class DiffCallback: DiffUtil.ItemCallback<ProductModel>() {
     override fun areItemsTheSame(oldItem: ProductModel, newItem: ProductModel): Boolean {
-        return oldItem.productId.equals(newItem.productId)
+        return oldItem.productId == newItem.productId
     }
 
     override fun areContentsTheSame(oldItem: ProductModel, newItem: ProductModel): Boolean {
@@ -63,18 +59,18 @@ class ProductViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
     fun bind(item: ProductModel?) {
         shortDescriptionTextView.visibility = View.VISIBLE
         if(item == null) {
-            nameTextView.text = "loading"
+            nameTextView.text = itemView.resources.getString(R.string.loading)
             Picasso.get().load(R.drawable.default_image)
                 .fit().into(productImageView)
-            priceTextView.text = "loading"
-            shortDescriptionTextView.text = "loading"
+            priceTextView.text = itemView.resources.getString(R.string.loading)
+            shortDescriptionTextView.text = itemView.resources.getString(R.string.loading)
         }else {
-            nameTextView.text = item.productName?: "product name holder"
-            Picasso.get().load(Constants.BASE_URL + item.productImage)
+            nameTextView.text = item.productName?: itemView.resources.getString(R.string.productNmaeHolder)
+            Picasso.get().load(Constants.BASE_URL + item.productImage?:"")
                 .placeholder(R.drawable.default_image)
                 .error(R.drawable.default_image)
                 .fit().into(productImageView)
-            priceTextView.text = item.price
+            priceTextView.text = item.price?:""
             if(item.shortDescription == null) {
                 shortDescriptionTextView.visibility = View.GONE
             }else {

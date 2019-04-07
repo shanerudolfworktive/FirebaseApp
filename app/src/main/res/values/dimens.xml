@@ -2,4 +2,5 @@
 <resources>
     <dimen name="mainToolbarElevation">4dp</dimen>
     <dimen name="nameSize">18sp</dimen>
+    <dimen name="generalMargin">8dp</dimen>
 </resources>

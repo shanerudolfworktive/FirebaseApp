@@ -6,7 +6,7 @@
             app:startDestination="@id/mainFragment">
 
     <fragment android:id="@+id/mainFragment"
-              android:name="com.example.fiarebaseapp.MainFragment"
+              android:name="com.example.fiarebaseapp.views.fragments.MainFragment"
               android:label="fragment_main"
               tools:layout="@layout/fragment_main">
         <action android:id="@+id/action_mainFragment_to_productListFragment"
@@ -20,7 +20,7 @@
                 app:destination="@id/productDetailFragment"/>
     </fragment>
     <fragment android:id="@+id/productDetailFragment"
-              android:name="com.example.fiarebaseapp.ProductDetailFragment"
+              android:name="com.example.fiarebaseapp.views.fragments.ProductDetailFragment"
               android:label="fragment_product_detail"
               tools:layout="@layout/fragment_product_detail">
         <argument android:name="productId"

@@ -1,4 +1,4 @@
-package com.example.fiarebaseapp
+package com.example.fiarebaseapp.views.fragments
 
 
 import android.os.Build
@@ -11,21 +11,12 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.navArgs
+import com.example.fiarebaseapp.R
 import com.example.fiarebaseapp.consts.Constants
 import com.example.fiarebaseapp.viewmodels.ProductDetailViewModel
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_product_detail.*
 
-
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- *
- */
 class ProductDetailFragment : Fragment() {
     val args: ProductDetailFragmentArgs by navArgs()
 
@@ -38,17 +29,16 @@ class ProductDetailFragment : Fragment() {
             Picasso.get().load(Constants.BASE_URL + it.productImage).fit().placeholder(R.drawable.default_image)
                 .error(R.drawable.default_image)
                 .into(productImageView)
-            nameTextView.text = it.productName
-            priceTextView.text = it.price
-            instoreTextView.text = "in store: " + it.inStock
-            ratingTextView.text = "rating: " + it.reviewRating
-            ratingCountTextView.text = "review count: " + it.reviewCount
+            nameTextView.text = it.productName ?: ""
+            priceTextView.text = it.price ?: ""
+            instoreTextView.text = getString(R.string.inStore, it.inStock)
+            ratingTextView.text = getString(R.string.rating, it.reviewRating)
+            ratingCountTextView.text = getString(R.string.reviewCount, it.reviewCount)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                descriptionTextView.text = Html.fromHtml(it.longDescription, Html.FROM_HTML_MODE_LEGACY)
+                descriptionTextView.text = Html.fromHtml(it.longDescription ?: "", Html.FROM_HTML_MODE_LEGACY)
             } else {
-                descriptionTextView.text = Html.fromHtml(it.longDescription)
+                descriptionTextView.text = Html.fromHtml(it.longDescription ?: "")
             }
-
         })
 
         viewmodel.productById(args.productId!!)

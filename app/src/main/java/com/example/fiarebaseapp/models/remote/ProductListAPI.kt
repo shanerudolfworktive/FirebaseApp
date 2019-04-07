@@ -2,8 +2,6 @@ package com.example.fiarebaseapp.models.remote
 
 import com.example.fiarebaseapp.consts.Constants
 import com.example.fiarebaseapp.models.ProductResponse
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
 import io.reactivex.Observable
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory

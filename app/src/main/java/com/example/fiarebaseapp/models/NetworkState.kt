@@ -5,7 +5,7 @@ enum class State{
 }
 
 class NetworkState (
-    val state: State,
+    val state: State = State.NONE,
     val errorMessage: String? = "",
     val successMessage: String? = ""
 )

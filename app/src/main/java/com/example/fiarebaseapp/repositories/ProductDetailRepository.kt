@@ -1,12 +1,9 @@
 package com.example.fiarebaseapp.repositories
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
 import com.example.fiarebaseapp.models.ProductModel
 import com.example.fiarebaseapp.models.local.ProductDao
 import com.example.fiarebaseapp.models.local.ProductsDatabase
-import com.example.fiarebaseapp.utils.AppExecutors
 
 class ProductDetailRepository(
     private val dao: ProductDao = ProductsDatabase.getInstance().productDao()

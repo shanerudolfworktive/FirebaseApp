@@ -6,8 +6,6 @@ import androidx.room.*
 import com.example.fiarebaseapp.MainApplication
 import com.example.fiarebaseapp.models.ProductModel
 import com.example.fiarebaseapp.models.ProductResponse
-import com.example.fiarebaseapp.utils.AppExecutors
-import java.util.*
 
 @Dao
 abstract class ProductDao {
