@@ -15,7 +15,7 @@ data class ProductResponse constructor(
     val totalProducts: Int?,
     val pageNumber: Int?,
     val pageSize: Int?,
-    val statusCode: Int?,
+    var statusCode: Int?,
     val products: List<ProductModel>?
 )
 

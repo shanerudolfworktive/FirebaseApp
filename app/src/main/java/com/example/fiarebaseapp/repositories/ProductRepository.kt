@@ -1,40 +1,42 @@
 package com.example.fiarebaseapp.repositories
 
-import android.app.Application
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.paging.Config
 import androidx.paging.PagedList
 import androidx.paging.toLiveData
-import com.example.fiarebaseapp.MainApplication
+import com.example.fiarebaseapp.models.NetworkState
 import com.example.fiarebaseapp.models.ProductModel
+import com.example.fiarebaseapp.models.State
+import com.example.fiarebaseapp.models.local.ProductDao
 import com.example.fiarebaseapp.models.local.ProductsDatabase
 import com.example.fiarebaseapp.models.remote.ProductListAPI
 import com.example.fiarebaseapp.utils.AppExecutors
 import com.google.gson.Gson
+import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
-class ProductRepository private constructor(
+class ProductRepository constructor(
     private val appExecutors: AppExecutors = AppExecutors.getInstance(),
     private val productAPI: ProductListAPI = ProductListAPI.getInstance(),
-    private val productsDatabase: ProductsDatabase = ProductsDatabase.getInstance()
-): PagedList.BoundaryCallback<ProductModel>(){
+    private val productDao: ProductDao = ProductsDatabase.getInstance().productDao()
+) : PagedList.BoundaryCallback<ProductModel>() {
 
-    val productDao = productsDatabase.productDao()
     private var lastRequestedPage = 1
     private var loading = false
 
     private val pagingConfig = Config(
-        pageSize = 1,
+        pageSize = 30,
         prefetchDistance = 10
-//        enablePlaceholders = false
     )
     val productModels: LiveData<PagedList<ProductModel>> = productDao.getAllProducts().toLiveData(
         config = pagingConfig,
         boundaryCallback = this
     )
+
+    val networkState = MutableLiveData<NetworkState>()
 
     fun deleteAllProducts() {
         appExecutors.diskIO.execute {
@@ -44,36 +46,43 @@ class ProductRepository private constructor(
 
     override fun onZeroItemsLoaded() {
         super.onZeroItemsLoaded()
-        Log.d("RepoBoundaryCallback", "onZeroItemsLoaded")
-        lastRequestedPage=1
+        lastRequestedPage = 1
         requestAndSaveData()
     }
 
     override fun onItemAtEndLoaded(itemAtEnd: ProductModel) {
-        Log.d("RepoBoundaryCallback", "onItemAtEndLoaded")
         requestAndSaveData()
     }
 
     private fun requestAndSaveData() {
         if (loading) return
 
-        appExecutors.diskIO.execute{
+        appExecutors.diskIO.execute {
             if (productDao.getFirst(lastRequestedPage).isEmpty()) {
-                appExecutors.mainThread.execute{
+                appExecutors.mainThread.execute {
                     loading = true
-                    ProductListAPI.getInstance().fetchProducts(lastRequestedPage,30).subscribeOn(Schedulers.io())
+                    productAPI.fetchProducts(lastRequestedPage, 30).subscribeOn(Schedulers.io())
+                        .observeOn(Schedulers.single())
+                        .flatMap {
+                            Log.e("testing1", Gson().toJson(it))
+                            if(it.statusCode != 200) {
+                                throw Throwable("" + it.statusCode)
+                            }
+                            productDao.insert(it)
+                            Observable.just(it)
+                        }
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe({
                             loading = false
                             lastRequestedPage++
-                            productDao.insert(it)
-                            Toast.makeText(MainApplication.appContext, "success fetch page: " + (lastRequestedPage-1), Toast.LENGTH_SHORT).show()
-                        },{
+                            networkState.postValue(NetworkState(State.SUCCESS, successMessage = "" + (lastRequestedPage-1)))
+                        }, {
+                            networkState.postValue(NetworkState(State.ERROR, it.message))
                             loading = false
                             it.printStackTrace()
                         })
                 }
-            }else {
+            } else {
                 appExecutors.mainThread.execute {
                     lastRequestedPage++
                 }
@@ -84,9 +93,10 @@ class ProductRepository private constructor(
     companion object {
         @Volatile
         private var INSTANCE: ProductRepository? = null
-        fun getInstance(): ProductRepository{
-            synchronized(this){
-                if(INSTANCE == null) INSTANCE = ProductRepository()
+
+        fun getInstance(): ProductRepository {
+            synchronized(this) {
+                if (INSTANCE == null) INSTANCE = ProductRepository()
             }
             return INSTANCE!!
         }

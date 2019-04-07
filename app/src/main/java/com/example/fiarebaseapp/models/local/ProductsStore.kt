@@ -17,9 +17,7 @@ abstract class ProductDao {
             product.pageNumber = productResponse.pageNumber
             product.insertTime = System.currentTimeMillis()
         }
-        AppExecutors.getInstance().diskIO.execute {
-            insert(productResponse.products)
-        }
+        insert(productResponse.products)
     }
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

@@ -4,6 +4,7 @@ package com.example.fiarebaseapp.views.fragments
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.fiarebaseapp.ProductDetailFragmentArgs
 import com.example.fiarebaseapp.R
 import com.example.fiarebaseapp.models.ProductModel
+import com.example.fiarebaseapp.models.State
 import com.example.fiarebaseapp.models.remote.ProductListAPI
 import com.example.fiarebaseapp.viewmodels.ProductListViewModel
 import com.example.fiarebaseapp.views.customViews.OnItemClickListener
@@ -46,6 +48,16 @@ class ProductListFragment : Fragment() {
 
         viewmodel.productModels.observe(this, Observer {
             adapter.submitList(it)
+        })
+
+        viewmodel.networkState.observe(this, Observer {
+            var toastMessage = ""
+            if(it.state == State.ERROR) {
+                toastMessage += getString(R.string.networkError) + " " +  it.errorMessage
+            }else if (it.state == State.SUCCESS) {
+                toastMessage += getString(R.string.fetchPageSuccess) + " " + it.successMessage
+            }
+            Toast.makeText(activity, toastMessage, Toast.LENGTH_SHORT).show()
         })
 
         adapter.onItemClickListener = object : OnItemClickListener {

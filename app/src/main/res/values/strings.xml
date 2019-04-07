@@ -5,4 +5,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="loading">Loading</string>
     <string name="deleteAllProducts">Delete All Products</string>
+
+    <string name="networkError">Network Error</string>
+    <string name="fetchPageSuccess">Fetch Page Success</string>
 </resources>
