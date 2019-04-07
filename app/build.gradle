@@ -62,6 +62,7 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycleVersion"
     kapt "androidx.lifecycle:lifecycle-compiler:$lifecycleVersion"
     androidTestImplementation "androidx.arch.core:core-testing:$lifecycleVersion"
+    testImplementation "androidx.arch.core:core-testing:$lifecycleVersion"
 
     //paging
     implementation "androidx.paging:paging-runtime-ktx:$pagingVersion"

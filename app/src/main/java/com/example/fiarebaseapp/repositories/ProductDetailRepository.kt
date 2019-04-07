@@ -9,7 +9,6 @@ import com.example.fiarebaseapp.models.local.ProductsDatabase
 import com.example.fiarebaseapp.utils.AppExecutors
 
 class ProductDetailRepository(
-    private val appExecutors: AppExecutors = AppExecutors.getInstance(),
     private val dao: ProductDao = ProductsDatabase.getInstance().productDao()
 ) {
     fun productById(productId: String):LiveData<ProductModel> {
