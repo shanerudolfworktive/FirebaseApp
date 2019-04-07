@@ -88,13 +88,9 @@ class ProductRepository constructor(
     }
 
     companion object {
-        @Volatile
         private var INSTANCE: ProductRepository? = null
-
         fun getInstance(): ProductRepository {
-            synchronized(this) {
-                if (INSTANCE == null) INSTANCE = ProductRepository()
-            }
+            if (INSTANCE == null) INSTANCE = ProductRepository()
             return INSTANCE!!
         }
     }

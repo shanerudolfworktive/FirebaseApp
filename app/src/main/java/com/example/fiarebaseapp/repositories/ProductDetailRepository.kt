@@ -13,12 +13,9 @@ class ProductDetailRepository(
     }
 
     companion object {
-        @Volatile
         private var INSTANCE: ProductDetailRepository? = null
         fun getInstance(): ProductDetailRepository{
-            synchronized(this){
-                if(INSTANCE == null) INSTANCE = ProductDetailRepository()
-            }
+            if(INSTANCE == null) INSTANCE = ProductDetailRepository()
             return INSTANCE!!
         }
     }

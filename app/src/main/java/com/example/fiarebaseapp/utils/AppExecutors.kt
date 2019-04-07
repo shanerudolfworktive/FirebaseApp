@@ -11,12 +11,9 @@ class AppExecutors constructor(
     val mainThread: Executor = MainThreadExecutor()
 ){
     companion object {
-        @Volatile
         private var INSTANCE: AppExecutors? = null
         fun getInstance(): AppExecutors{
-            synchronized(this) {
-                if(INSTANCE == null) INSTANCE = AppExecutors()
-            }
+            if(INSTANCE == null) INSTANCE = AppExecutors()
             return INSTANCE!!
         }
     }
