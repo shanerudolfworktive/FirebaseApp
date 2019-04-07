@@ -7,6 +7,7 @@ import androidx.room.PrimaryKey
 import androidx.room.Room
 import androidx.test.InstrumentationRegistry
 import androidx.test.runner.AndroidJUnit4
+import com.example.fiarebaseapp.mocks.MockProductListAPI
 import com.example.fiarebaseapp.models.ProductModel
 import com.example.fiarebaseapp.models.ProductResponse
 import com.example.fiarebaseapp.models.State
@@ -29,7 +30,7 @@ import java.util.concurrent.TimeUnit
 
 
 @RunWith(AndroidJUnit4::class)
-class ProductListRepoTest {
+class ProductListViewModelTest {
     @Rule
     @JvmField
     val rule = InstantTaskExecutorRule()
@@ -40,7 +41,6 @@ class ProductListRepoTest {
     @Before
     @Throws(Exception::class)
     fun initDb() {
-        Log.e("database open", "database open")
         db = Room.inMemoryDatabaseBuilder(InstrumentationRegistry.getTargetContext(), ProductsDatabase::class.java)
             .allowMainThreadQueries()
             .build()
@@ -50,64 +50,7 @@ class ProductListRepoTest {
     @After
     @Throws(Exception::class)
     fun closeDb() {
-        Log.e("database closed", "database closed")
         db.close()
-    }
-
-    @Test
-    @Throws(InterruptedException::class)
-    fun initialNullCheck() {
-        assertNull(dao.first())
-    }
-
-    @Test
-    @Throws(InterruptedException::class)
-    fun insert() {
-        dao.insert(arrayListOf(
-            ProductModel(
-                "test-id",
-                "test-name",
-                "test-sortDesc",
-                "test-longDesc",
-                "test-price",
-                "test-image",
-                10f,
-                15,
-                true,
-                20,
-                50
-
-            )
-        ))
-        Log.e("testing 4", "dao.getAllProducts()=" + Gson().toJson(dao.getAllProducts()))
-    }
-
-    class MockProductListAPI : ProductListAPI {
-        var response = ProductResponse(
-            totalProducts = 0,
-            pageNumber = 0,
-            pageSize = 0,
-            statusCode = 200,
-            products = arrayListOf(
-                ProductModel(
-                    "test-id",
-                    "test-name",
-                    "test-sortDesc",
-                    "test-longDesc",
-                    "test-price",
-                    "test-image",
-                    10f,
-                    15,
-                    true,
-                    20,
-                    50
-
-                )
-            )
-        )
-        override fun fetchProducts(pageNumber: Int, pageSize: Int): Observable<ProductResponse> {
-            return Observable.just(response)
-        }
     }
 
     @Test

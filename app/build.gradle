@@ -61,9 +61,11 @@ dependencies {
     //viewmodel and livedata
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycleVersion"
     kapt "androidx.lifecycle:lifecycle-compiler:$lifecycleVersion"
+    androidTestImplementation "androidx.arch.core:core-testing:$lifecycleVersion"
 
     //paging
     implementation "androidx.paging:paging-runtime-ktx:$pagingVersion"
+    testImplementation "androidx.paging:paging-common-ktx:$pagingVersion" // For Kotlin use paging-common-ktx
 
     //retrofit
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
@@ -75,11 +77,11 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxandroid:$rxJavaVersion"
     implementation "io.reactivex.rxjava2:rxjava:$rxAndroidVersion"
 
-    //glide
-//    kapt "com.github.bumptech.glide:compiler:4.9.0"
     implementation 'com.squareup.picasso:picasso:2.71828'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.2-alpha02'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0-alpha02'
+    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.0.0"
+    testImplementation "org.robolectric:robolectric:3.6.1"
 }
