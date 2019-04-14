@@ -33,6 +33,9 @@ abstract class ProductDao {
     @Query("select * from ProductTable limit 1")
     abstract fun first(): ProductModel
 
+    @Query("select * from ProductTable ORDER BY pageNumber DESC limit 1")
+    abstract fun last(): ProductModel?
+
     @Query("select * from ProductTable where productId=:productId")
     abstract fun productById(productId: String): LiveData<ProductModel>
 
