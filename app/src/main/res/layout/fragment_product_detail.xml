@@ -1,85 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-        xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        tools:context=".views.fragments.ProductDetailFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1">
-    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable name="productModel"
+                  type="com.example.fiarebaseapp.models.ProductModel"/>
+    </data>
+
+    <ScrollView
+            tools:context=".views.fragments.ProductDetailFragment"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-
-        <ImageView
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+        <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                tools:src="@tools:sample/avatars"
-                android:id="@+id/productImageView"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintDimensionRatio="1:1"
-                android:src="@drawable/default_image"
-                android:scaleType="fitCenter"/>
-        <TextView
-                android:text="@string/placeHolder"
-                android:layout_height="wrap_content"
-                android:id="@+id/nameTextView"
-                android:layout_marginTop="@dimen/generalMargin"
-                app:layout_constraintTop_toBottomOf="@+id/productImageView"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="@dimen/generalMargin"
-                android:textSize="@dimen/nameSize"
-                android:textStyle="bold"
-                android:layout_width="wrap_content"/>
-        <TextView
-                android:text="@string/placeHolder"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/priceTextView"
-                android:layout_marginTop="@dimen/generalMargin"
-                app:layout_constraintTop_toBottomOf="@+id/nameTextView"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="@dimen/generalMargin"/>
-        <TextView
-                android:text="@string/placeHolder"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/ratingTextView"
-                android:layout_marginTop="@dimen/generalMargin"
-                app:layout_constraintTop_toBottomOf="@+id/priceTextView"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="@dimen/generalMargin"/>
-        <TextView
-                android:text="@string/placeHolder"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/instoreTextView"
-                android:layout_marginTop="@dimen/generalMargin"
-                app:layout_constraintTop_toBottomOf="@+id/ratingTextView"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="@dimen/generalMargin"/>
-        <TextView
-                android:text="@string/placeHolder"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/ratingCountTextView"
-                android:layout_marginTop="@dimen/generalMargin"
-                app:layout_constraintTop_toBottomOf="@+id/instoreTextView"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="@dimen/generalMargin"/>
-        <TextView
-                android:text="@string/placeHolder"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/descriptionTextView"
-                android:layout_marginTop="@dimen/generalMargin"
-                app:layout_constraintTop_toBottomOf="@+id/ratingCountTextView"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="@dimen/generalMargin"/>
+                android:layout_height="wrap_content">
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>
+            <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    tools:src="@tools:sample/avatars"
+                    android:id="@+id/productImageView"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:imageUrl="@{productModel.productImage}"
+                    android:src="@drawable/default_image"
+                    android:scaleType="fitCenter"/>
+            <TextView
+                    android:text="@string/placeHolder"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/nameTextView"
+                    android:layout_marginTop="@dimen/generalMargin"
+                    app:layout_constraintTop_toBottomOf="@+id/productImageView"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="@dimen/generalMargin"
+                    android:textSize="@dimen/nameSize"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"/>
+            <TextView
+                    android:text="@string/placeHolder"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/priceTextView"
+                    android:layout_marginTop="@dimen/generalMargin"
+                    app:layout_constraintTop_toBottomOf="@+id/nameTextView"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="@dimen/generalMargin"/>
+            <TextView
+                    android:text="@string/placeHolder"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/ratingTextView"
+                    android:layout_marginTop="@dimen/generalMargin"
+                    app:layout_constraintTop_toBottomOf="@+id/priceTextView"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="@dimen/generalMargin"/>
+            <TextView
+                    android:text="@string/placeHolder"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/instoreTextView"
+                    android:layout_marginTop="@dimen/generalMargin"
+                    app:layout_constraintTop_toBottomOf="@+id/ratingTextView"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="@dimen/generalMargin"/>
+            <TextView
+                    android:text="@string/placeHolder"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/ratingCountTextView"
+                    android:layout_marginTop="@dimen/generalMargin"
+                    app:layout_constraintTop_toBottomOf="@+id/instoreTextView"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="@dimen/generalMargin"/>
+            <TextView
+                    android:text="@string/placeHolder"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/descriptionTextView"
+                    android:layout_marginTop="@dimen/generalMargin"
+                    app:layout_constraintTop_toBottomOf="@+id/ratingCountTextView"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="@dimen/generalMargin"/>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</layout>

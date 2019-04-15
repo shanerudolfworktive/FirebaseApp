@@ -10,6 +10,9 @@ apply plugin: "androidx.navigation.safeargs.kotlin"
 
 android {
     compileSdkVersion 28
+    dataBinding {
+        enabled = true
+    }
     defaultConfig {
         applicationId "com.example.fiarebaseapp"
         minSdkVersion 21

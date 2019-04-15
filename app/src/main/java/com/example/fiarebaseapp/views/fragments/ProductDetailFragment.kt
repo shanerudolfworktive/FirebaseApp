@@ -13,11 +13,13 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.navArgs
 import com.example.fiarebaseapp.R
 import com.example.fiarebaseapp.consts.Constants
+import com.example.fiarebaseapp.databinding.FragmentProductDetailBinding
 import com.example.fiarebaseapp.viewmodels.ProductDetailViewModel
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_product_detail.*
 
 class ProductDetailFragment : Fragment() {
+    lateinit var binding: FragmentProductDetailBinding
     val args: ProductDetailFragmentArgs by navArgs()
 
     lateinit var viewmodel: ProductDetailViewModel
@@ -29,6 +31,7 @@ class ProductDetailFragment : Fragment() {
             Picasso.get().load(Constants.BASE_URL + it.productImage).fit().placeholder(R.drawable.default_image)
                 .error(R.drawable.default_image)
                 .into(productImageView)
+            binding.productModel = it
             nameTextView.text = it.productName ?: ""
             priceTextView.text = it.price ?: ""
             instoreTextView.text = getString(R.string.inStore, it.inStock)
@@ -48,7 +51,8 @@ class ProductDetailFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_product_detail, container, false)
+        binding = FragmentProductDetailBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
